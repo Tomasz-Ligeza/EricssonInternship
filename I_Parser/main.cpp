@@ -34,7 +34,7 @@ int main() {
 		output << correct.size() + incorrect << "\n"
 			<< incorrect << "\n";
 		for (auto& protocol : correct) {
-			output << protocol << "\n";
+			output << protocol << " ";
 		}
 		output.close();
 	}
