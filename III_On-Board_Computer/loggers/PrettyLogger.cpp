@@ -1,4 +1,5 @@
 #include "PrettyLogger.h"
+#include <iostream>
 #include <iomanip>
 
 PrettyLogger::PrettyLogger(std::shared_ptr<DataCollector> dataCollector)
@@ -12,13 +13,13 @@ void PrettyLogger::printLogs()
 		<< (dataCollector->isLeftBlinkerOn() ? "<=" : "--") << "\t"
 		<< (dataCollector->isRightBlinkerOn() ? "=>" : "--") << "\t"
 		<< (dataCollector->isHandBrakeOn() ? "(!)" : "---") << "\n"
-		<< dataCollector->getEngTemp() << " *C\t"
-		<< std::setw(4) << dataCollector->getRPM() << " rpm\t\t"
-		<< dataCollector->getSpeed() << " km/h\t"
-		<< dataCollector->getFuelLevel() << " %oF\n\t"
+		<< "  " << std::setw(2) << dataCollector->getEngTemp() << " *C\t"
+		<< std::setw(4) << dataCollector->getRPM() << " rpm\t"
+		<< std::setw(2) << dataCollector->getSpeed() << " km/h\t"
+		<< std::setw(3) << dataCollector->getFuelLevel() << " %oF\n\t"
 		<< (dataCollector->isOilWrong() ? "OIL" : "---") << "\t"
 
-		<< dataCollector->getSteeringAngle() << "*\t"
+		<< std::setw(3) << dataCollector->getSteeringAngle() << "*\t"
 		<< dataCollector->getGearNumber() << ".G\t"
 
 		<< (dataCollector->isEngineDamaged() ? "ENG" : "---") << "\n\n";

@@ -2,12 +2,41 @@
 #include "../loggers/SimpleLogger.h"
 #include "../loggers/PrettyLogger.h"
 #include "../sensors/Sensors.h"
-#include <Windows.h>
+#include <chrono>
 
-OnBoardComputer::OnBoardComputer()
+OnBoardComputer::OnBoardComputer(LoggerType loggerType, int period)
 {
+	this->period = period;
+	this->refreshSensorsPerios = 57;
 	dataCollector = std::make_shared<DataCollector>();
+	if(loggerType == SIMPLE)
+		logger = std::make_shared<SimpleLogger>(dataCollector);
+	else
+		logger = std::make_shared<PrettyLogger>(dataCollector);
+	
+	initializeSensors();
+	dataCollector->attach(logger);
+}
 
+void OnBoardComputer::run()
+{
+	auto previousDataUpdate = std::chrono::steady_clock::now();
+	auto previousSensorsRefresh = std::chrono::steady_clock::now();
+
+	while (true) {
+		if(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - previousDataUpdate).count() >= period) {
+			dataCollector->updateData();
+			previousDataUpdate = std::chrono::steady_clock::now();
+		}
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - previousSensorsRefresh).count() >= refreshSensorsPerios) {
+			updateSensors();
+			previousSensorsRefresh = std::chrono::steady_clock::now();
+		}
+	}
+}
+
+void OnBoardComputer::initializeSensors()
+{
 	std::shared_ptr<SpeedSensor> sS = std::make_shared<SpeedSensor>();
 	sensors.push_back(sS);
 	dataCollector->setSpeedSensor(sS);
@@ -35,19 +64,6 @@ OnBoardComputer::OnBoardComputer()
 	std::shared_ptr<SmallerSensorsManager> sM = std::make_shared<SmallerSensorsManager>();
 	sensors.push_back(sM);
 	dataCollector->setSmallerSensorsManager(sM);
-
-	//logger = std::make_shared<SimpleLogger>(dataCollector);
-	logger = std::make_shared<PrettyLogger>(dataCollector);
-	dataCollector->attach(logger);
-}
-
-void OnBoardComputer::run()
-{
-	while (true) {
-		dataCollector->updateData();
-		updateSensors();
-		Sleep(1000);
-	}
 }
 
 void OnBoardComputer::updateSensors()

@@ -1,5 +1,6 @@
 #include "SimpleLogger.h"
 #include <iostream>
+#include <iomanip>
 
 SimpleLogger::SimpleLogger(std::shared_ptr<DataCollector> dataCollector)
 {
@@ -13,12 +14,12 @@ void SimpleLogger::update()
 
 void SimpleLogger::printLogs()
 {
-	std::cout << dataCollector->getSpeed() << " km/h; "
-		<< dataCollector->getRPM() << " rmp; "
-		<< dataCollector->getEngTemp() << " *C; "
+	std::cout << std::setw(2) << dataCollector->getSpeed() << " km/h; "
+		<< std::setw(4) << dataCollector->getRPM() << " rmp; "
+		<< std::setw(3) << dataCollector->getEngTemp() << " *C; "
 		<< dataCollector->getGearNumber() << ".G "
-		<< dataCollector->getFuelLevel() << "%oF; "
-		<< dataCollector->getSteeringAngle() << "* "
+		<< std::setw(3) << dataCollector->getFuelLevel() << "%oF; "
+		<< std::setw(3) << dataCollector->getSteeringAngle() << "* "
 		<< std::noboolalpha
 		<< dataCollector->areLightsOn()
 		<< dataCollector->isLeftBlinkerOn()

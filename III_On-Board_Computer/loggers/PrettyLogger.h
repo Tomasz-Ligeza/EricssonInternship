@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "ILogger.h"
 
 class PrettyLogger : public ILogger
