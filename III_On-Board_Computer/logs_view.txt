@@ -1,0 +1,15 @@
+
+/*
+			=O	<=	=>	(!)
+	80*C	2500 rpm			50 km/h		27/100 %F
+		OIL		-200*	5.G		ENG
+*/
+
+/*
+
+	50km/h	2500rpm	80*C	5thGEAR	27/100%F	-200*	100100	
+
+*/
+
+101010
+lights, l_blinker, r_blinker, hand_brake, oil_error, engine_error

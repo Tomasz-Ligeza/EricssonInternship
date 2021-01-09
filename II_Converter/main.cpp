@@ -1,10 +1,15 @@
 #include <iostream>
 #include <algorithm>
 
-long pow(int exp, int fou = 2) {
+long pow(int exp, int base) {
 	long val{ 1 };
-	while (exp-- > 0) {
-		val *= fou;
+	for (;;) {
+		if(exp & 1)
+			val *= base;
+		exp >>= 1;
+		if (!exp)
+			break;
+		base *= base;
 	}
 	return val;
 }
@@ -14,7 +19,7 @@ int binToDec(std::string binary) {
 	int decimal { 0 };
 	for (auto& digit : binary) {
 		if (digit == '1')
-			decimal += pow(exponent);
+			decimal += pow(exponent, 2);
 		exponent--;
 	}
 	return decimal;
@@ -24,7 +29,7 @@ std::string decToBin(int decimal) {
 	std::string binary;
 	while (decimal > 0) {
 		binary += '0' + decimal % 2;
-		decimal /= 2;
+		decimal >>= 1;
 	}
 	std::reverse(binary.begin(), binary.end());
 	return binary;
@@ -36,7 +41,7 @@ int main() {
 		std::cout << "Select operation: \n"
 			<< "-> [1] conversion from binary to decimal\n"
 			<< "-> [2] conversion from decimal to binary\n"
-			<< "-> [*] exit\n";
+			<< "-> [*] exit\t\t\t\t*=any\n";
 		std::cin >> option;
 		switch (option) {
 		case '1': {
@@ -59,7 +64,7 @@ int main() {
 			return 0;
 		}
 		}
-		std::cout << "Once more? [y/n] ";
+		std::cout << "One more conversion? [y/n] ";
 		std::cin >> option;
 		if (option == 'n')
 			break;
