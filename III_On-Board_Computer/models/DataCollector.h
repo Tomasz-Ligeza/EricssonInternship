@@ -7,7 +7,13 @@
 
 class ILogger;
 
-//DODAC CZAS
+/*
+	DataCollector class is a typical "Subject" class from Observer pattern.
+	It takes care of receiving data from all sensors, and notifies logger
+	when data is refreshed.
+
+	It contains pointers to all sensors.
+*/
 
 class DataCollector
 {
@@ -20,7 +26,7 @@ public:
 	void updateData();
 
 
-	//data
+	//data getters
 	int getSpeed();
 	int getRPM();
 	int getEngTemp();

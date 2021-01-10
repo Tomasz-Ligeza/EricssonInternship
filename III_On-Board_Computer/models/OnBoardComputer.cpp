@@ -7,9 +7,9 @@
 OnBoardComputer::OnBoardComputer(LoggerType loggerType, int period)
 {
 	this->period = period;
-	this->refreshSensorsPerios = 57;
+	this->refreshSensorsPeriod = 113;
 	dataCollector = std::make_shared<DataCollector>();
-	if(loggerType == SIMPLE)
+	if(loggerType == LoggerType::SIMPLE)
 		logger = std::make_shared<SimpleLogger>(dataCollector);
 	else
 		logger = std::make_shared<PrettyLogger>(dataCollector);
@@ -28,7 +28,7 @@ void OnBoardComputer::run()
 			dataCollector->updateData();
 			previousDataUpdate = std::chrono::steady_clock::now();
 		}
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - previousSensorsRefresh).count() >= refreshSensorsPerios) {
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - previousSensorsRefresh).count() >= refreshSensorsPeriod) {
 			updateSensors();
 			previousSensorsRefresh = std::chrono::steady_clock::now();
 		}

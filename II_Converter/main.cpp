@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <limits>
 
 long pow(int exp, int base) {
 	long val{ 1 };
@@ -35,6 +36,13 @@ std::string decToBin(int decimal) {
 	return binary;
 }
 
+bool isInputValid(std::string binary) {
+	for (auto& digit : binary)
+		if (digit != '0' && digit != '1')
+			return false;
+	return true;
+}
+
 int main() {
 	do {
 		char option {' '};
@@ -49,7 +57,10 @@ int main() {
 			std::cout << "Please enter binary number: ";
 			std::string binary;
 			std::cin >> binary;
-			std::cout << "\n" << binary << " [BIN] = " << binToDec(binary) << " [DEC]\n";
+			if (isInputValid(binary))
+				std::cout << "\n" << binary << " [BIN] = " << binToDec(binary) << " [DEC]\n";
+			else
+				std::cout << "This is not a number in binary system.\n";
 			break;
 		}
 		case '2': {
@@ -57,7 +68,15 @@ int main() {
 			std::cout << "Please enter decimal number: ";
 			int decimal;
 			std::cin >> decimal;
-			std::cout << "\n" << decimal << " [DEC] = " << decToBin(decimal) << " [BIN]\n";
+			if (!std::cin.fail()) {
+				std::cout << "\n" << decimal << " [DEC] = " << decToBin(decimal) << " [BIN]\n";
+			}
+			else {
+				std::cout << "This is not number in decimal system.\n";
+			}
+			std::cin.clear();
+			std::cin.sync();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			break;
 		}
 		default: {

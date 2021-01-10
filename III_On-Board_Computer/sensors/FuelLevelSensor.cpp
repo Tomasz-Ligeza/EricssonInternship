@@ -3,7 +3,7 @@
 
 void FuelLevelSensor::update()
 {
-	fuelLevel = (abs(fuelLevel - 1) % 100);
+	fuelLevel = (abs(-fuelLevel - 1) % 100);
 }
 
 int FuelLevelSensor::getFuelLevel()
